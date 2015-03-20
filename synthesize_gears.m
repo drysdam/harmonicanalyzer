@@ -1,18 +1,18 @@
-function [ td ] = synthesize_gears ( coeffs, f, samples, cycles )
+function [ td ] = synthesize_gears ( coeffs, f, samplecount, cycles )
   % f(x) = \sum_{i=1}^{N} a_i*cos(ix)
   % where N is the fft length
   % and x ranges from 0 to 2\pi.
   N = length(coeffs);
   
   % for synthesize, I think we can do as many samples as we want...?
-  td = zeros(1,samples);
+  td = zeros(1,samplecount);
 
 % normally, index = 1 -> freq = 0, but the harmonic analyzer does a bias by just moving the platen up or down, so the first index is actually freq = 1;
   for cf=1:N
 	if strcmp(f,"c")
-	  td += coeffs(cf) * cos(cycles*2*pi*cf*[1:samples]/samples);
+	  td += coeffs(cf) * cos(cycles*2*pi*cf*[0:samplecount]/samplecount);
 	else
-	  td += coeffs(cf) * sin(cycles*2*pi*cf*[1:samples]/samples);
+	  td += coeffs(cf) * sin(cycles*2*pi*cf*[0:samplecount]/samplecount);
 	endif
   endfor
 
