@@ -1,9 +1,24 @@
-function [ a ] = analyze_gears ( fks  )
-  a = zeros(1,4);
+function [ a ] = analyze_gears ( samples )
+  % 'samples' contains a sampled function that we are going to do a
+  % convolution on with each of several frequencies to see what the
+  % coeff for that frequency is. How many frequencies? We need to have
+  % at least two samples for each frequency we want to identify. So if
+  % we had 8 samples, we could detect frequencies 0, 1, 2, 3 and
+  % 4.
 
-  a += fks(1) * cos(1 * [1:4] * pi/4);
-  a += fks(2) * cos(2 * [1:4] * pi/4);
-  a += fks(3) * cos(3 * [1:4] * pi/4);
-  a += fks(4) * cos(4 * [1:4] * pi/4);
+  % However, the book shows getting the same number of coeffs as there
+  % are samples. Maybe because the samples come from 1/2 period of a
+  % periodic function? Also, there's no 0 freq (DC offset).
+  
+  samplecount = length(samples);
+  a = zeros(1,samplecount);
+  % do the convolutions manually for maximum understanding. also, only
+  % doing each frequency from 0 to pi.
+
+  % not sure how to break this up right...
+  a(1) = sum(samples .* cos(1 * pi * [1:4]/4));
+  a(2) = sum(samples .* cos(2 * pi * [1:4]/4));
+  a(3) = sum(samples .* cos(3 * pi * [1:4]/4));
+  a(4) = sum(samples .* cos(4 * pi * [1:4]/4));
 
 endfunction
