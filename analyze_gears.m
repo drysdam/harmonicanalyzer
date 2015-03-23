@@ -14,11 +14,11 @@ function [ a ] = analyze_gears ( samples )
   %% do the convolutions manually for maximum understanding. also, only
   %% doing each frequency from 0 to pi.
 
-  %% I want N evenly spaced *fenceposts*, so divide into N-1 fence
-  %% *spans* and include both ends
-  a(1) = sum(samples .* cos(1 * pi * [0:3]/3));
-  a(2) = sum(samples .* cos(2 * pi * [0:3]/3));
-  a(3) = sum(samples .* cos(3 * pi * [0:3]/3));
-  a(4) = sum(samples .* cos(4 * pi * [0:3]/3));
+  %% this is definitely what the book is doing. I don't get it, but this
+  %% is what it is doing.
+  a(1) = sum(samples .* cos(1 * pi * [1:4]/4));
+  a(2) = sum(samples .* cos(2 * pi * [1:4]/4));
+  a(3) = sum(samples .* cos(3 * pi * [1:4]/4));
+  a(4) = sum(samples .* cos(4 * pi * [1:4]/4));
 
 endfunction
