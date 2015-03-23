@@ -18,9 +18,12 @@ function [ xa ya xd yd ] = crank_gears ( coeffs, f, oversamplerate, cycles )
 	endif
   endfor
 endfunction
-%% some interesting ones, labeled by Michelson's paper 3a
-%% synthesize_gears([1 0 1/9 0 1/25], 'c', 100, 2) 4a
-%% synthesize_gears([1 0 1/3 0 1/5 0 1/7 0 1/9 0 1/11 0 1/13 0 1/15 0
-%% 1/17 0 1/19], 's', 1000, 2) 5a synthesize_gears([1 1/2 1/3 1/4 1/5
-%% 1/6 1/7 1/8 1/9 1/10 1/11 1/12 1/13 1/14 1/15 1/16 1/17 1/18 1/19
-%% 1/20], 'c', 100, 2)
+%% some interesting ones, labeled by Michelson's paper 
+%% 3a
+%% synthesize_gears([1 0 1/9 0 1/25], 'c', 100, 2) 
+
+%% 4a
+%% synthesize_gears([1 0 1/3 0 1/5 0 1/7 0 1/9 0 1/11 0 1/13 0 1/15 0 1/17 0 1/19], 's', 1000, 2) 
+
+%% 5a 
+%% synthesize_gears([1 1/2 1/3 1/4 1/5 1/6 1/7 1/8 1/9 1/10 1/11 1/12 1/13 1/14 1/15 1/16 1/17 1/18 1/19 1/20], 'c', 100, 2)
