@@ -1,19 +1,19 @@
 function [ xa ya xd yd ] = crank_gears ( coeffs, f, oversamplerate, cycles )
   N = length(coeffs);
+  xd = [1:N]/N;
   yd = zeros(1,N);
-  ya = zeros(1,oversamplerate*N);
+  xa = [1:cycles*oversamplerate*N]/(oversamplerate*N);
+  ya = zeros(1,cycles*oversamplerate*N);
 
   %% normally, index = 1 -> freq = 0, but the harmonic analyzer does a
   %% bias by just moving the platen up or down, so the first index is
   %% actually freq = 1;
-  xa = [1:oversamplerate*N]/(oversamplerate*N);
-  xd = [1:N]/N;
   for cf=1:N
 	if strcmp(f,"c")
-	  ya += coeffs(cf) * cos(cycles*2*pi*cf*xa);
+	  ya += coeffs(cf) * cos(2*pi*cf*xa);
 	  yd += coeffs(cf) * cos(2*pi*cf*xd);
 	else
-	  ya += coeffs(cf) * sin(cycles*2*pi*cf*xa);
+	  ya += coeffs(cf) * sin(2*pi*cf*xa);
 	  yd += coeffs(cf) * sin(2*pi*cf*xd);
 	endif
   endfor
