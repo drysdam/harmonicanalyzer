@@ -25,14 +25,39 @@ def analyze(samples, f, cycles=1):
     return line(zip(xa, ya)) + points(zip(xd, yd), pointsize=30)
 
 def michelson_graphs(width):
+    invs = array([1/x for x in range(1,width+1)])
     oddinvs = array([1/x if x%2==1 else 0 for x in range(1,width+1)])
     alternating = array([(-1)^floor(x/2) for x in range(0,width)])
-    # 3a
+    # 3a 
+    # cos(x) + 1/3^2 cos(3x) + 1/5^2 cos(5x) + ...
     show(synthesize(oddinvs*oddinvs, cos))
     # 3b
+    # cos(x) - 1/3 cos(3x) + 1/5 cos(5x) - ...
     show(synthesize(alternating*oddinvs, cos))
+    # 3c
+    # cos(4x) + 1/3^2 cos(12x) + 1/5^2 cos(20x) + ...
+    # not much point in this, since it's just 3x the freq of 3a
+    # 3d
+    # sin(x) - 1/3^2 sin(3x) + 1/5^2 sin(5x) + ...
+    show(synthesize(alternating*oddinvs*oddinvs, sin))
+
     # 4a
+    # sin(x) + 1/3 sin(3x) + 1/5 sin(5x) + ...
     show(synthesize(oddinvs, sin))
+    # 4b
+    # sin(x) + 1/2 sin(2x) + 1/3 sin(3x) + ...
+    show(synthesize(invs, sin))
+    # 4c
+    # cos(4x) - 1/3 cos(12x) + 1/5 cos(20x) - ...
+    # not much point in this, since it's just 3x the freq of 3b
+    # 4d
+    # sum n=1-10: ((sin(1/2 n*pi) - sin(1/4 n*pi))*something*/(n*pi) cos(n*pi))
+    # huh?
+
+    # 5a
+    # cos(x) + 1/2 cos(2x) + 1/3 cos(3x) + ...
+    show(synthesize(invs, cos))
+    
 
 michelson_graphs(2)
 
