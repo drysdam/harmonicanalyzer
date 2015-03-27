@@ -25,10 +25,14 @@ def analyze(samples, f, cycles=1):
     return line(zip(xa, ya)) + points(zip(xd, yd), pointsize=30)
 
 def michelson_graphs(width):
-    odds = array([x if x%2==1 else 0 for x in range(1,width+1)])
-    oddinvs = array([1/x if x%2==1 else 0 for x in range(0,width+1)])
-    show(synthesize(oddinvs, cos))
-#    show(synthesize([0, 1, 0, 0], cos))
+    oddinvs = array([1/x if x%2==1 else 0 for x in range(1,width+1)])
+    alternating = array([(-1)^floor(x/2) for x in range(0,width)])
+    # 3a
+    show(synthesize(oddinvs*oddinvs, cos))
+    # 3b
+    show(synthesize(alternating*oddinvs, cos))
+    # 4a
+    show(synthesize(oddinvs, sin))
 
 michelson_graphs(2)
 
