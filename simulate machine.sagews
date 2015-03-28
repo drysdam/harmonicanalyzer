@@ -58,9 +58,20 @@ def michelson_graphs(width):
     # cos(x) + 1/2 cos(2x) + 1/3 cos(3x) + ...
     show(synthesize(invs, cos))
     
+def squarewave(width, save=False):
+    # sin(x) + 1/3 sin(3x) + 1/5 sin(5x) + ...
+    oddinvs = array([1/x if x%2==1 else 0 for x in range(1,width+1)])
+    p = synthesize(oddinvs, sin)
+    t = text('%d freq bins'%width, (4.5,.5), rgbcolor=(0,0,0))
+    p = p + t;
+    if save:
+        p.save(filename='/tmp/%03d.png'%width, aspect_ratio=.4, ymin=-1, ymax=1)
+    else:
+        p.show(aspect_ratio=.2, ymin=-1, ymax=1)
+        
 
-michelson_graphs(2)
-
+squarewave(8)
+#michelson_graphs(2)
 #synthesize([1, 0, 0, 0], cos)
 #synthesize([0, 1, 0, ], cos)
 
