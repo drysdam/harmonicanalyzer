@@ -45,4 +45,3 @@ def how_divide(divisions, gear_ratio, division_plates):
     matches = array(map((lambda x: x == 0 and True or False), stops_mods))
     return dplates[matches]
 
-
