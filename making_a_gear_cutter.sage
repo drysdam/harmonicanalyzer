@@ -5,7 +5,7 @@ PA = 14.5
 DP = 72
 actual_tip_removal = .020
 cutter_dia = .500
-cutting_teeth = 7
+cutting_teeth = 9
 
 print "Making a %d degree pressure angle, %d teeth/diametral inch gear cutter" % (PA, DP)
 print "-" * 70
@@ -44,7 +44,7 @@ for t in range(0,cutting_teeth):
     chunkcoords = transpose(dot(R, transpose(onechunkcoords)))
     figure += line(chunkcoords, color="red")
 
-show(figure)
+show(figure, aspect_ratio=1.0)
 
 # making the gear
 infeed = 2.25/DP
