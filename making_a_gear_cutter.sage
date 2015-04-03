@@ -1,8 +1,11 @@
+from numpy import *
+
 # choices
 PA = 14.5
 DP = 72
 actual_tip_removal = .020
-cutting_teeth = 9
+cutter_dia = .500
+cutting_teeth = 7
 
 print "Making a %d degree pressure angle, %d teeth/diametral inch gear cutter" % (PA, DP)
 print "-" * 70
@@ -17,11 +20,33 @@ print "sp cutter max tip removal: %.04f" % max_tip_removal
 print "sp cutter actual tip removal: %.04f" % actual_tip_removal
 print
 # making the rack-form cutter
-infeed = 2.25/DP
 actual_cutter_depth = cutter_depth - actual_tip_removal
 print "rf cutter tooth spacing: %.04f" % cutter_spacing
 print "rf cutter tooth depth (sharp): %.04f" % cutter_depth
 print "rf cutter tooth depth (actual): %.04f" % actual_cutter_depth
 print
+
+# rf cutter diagram
+crests = plot(circle((0,0), cutter_dia/2))
+# diameter of teeth roots
+roots = plot(circle((0,0), cutter_dia/2-actual_cutter_depth))
+
+xcorner = cutter_dia/2-actual_cutter_depth-.005
+ycorner = -.005
+xedge = cutter_dia/2
+yedge = sqrt((cutter_dia/2)^2 - xcorner^2)
+onechunkcoords = [(xcorner, yedge), (xcorner, ycorner), (xedge, ycorner)]
+figure = crests + roots
+for t in range(0,cutting_teeth):
+    a = 2*pi/cutting_teeth * t
+    R = array([[cos(a), -sin(a)],
+               [sin(a), cos(a)]])
+    chunkcoords = transpose(dot(R, transpose(onechunkcoords)))
+    figure += line(chunkcoords, color="red")
+
+show(figure)
+
 # making the gear
+infeed = 2.25/DP
 print "rf cutter infeed: %.04f" % infeed
+
