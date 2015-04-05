@@ -5,7 +5,7 @@ PA = 14.5
 DP = 72
 actual_tip_removal = .020
 cutter_dia = .500
-cutting_teeth = 9
+cutting_teeth = 8
 
 print "Making a %d degree pressure angle, %d teeth/diametral inch gear cutter" % (PA, DP)
 print "-" * 70
@@ -31,13 +31,12 @@ crests = plot(circle((0,0), cutter_dia/2))
 # diameter of teeth roots
 roots = plot(circle((0,0), cutter_dia/2-actual_cutter_depth))
 
+# real amounts I care about
 xcorner = cutter_dia/2-actual_cutter_depth-.005
 ycorner = -.005
-xedge = cutter_dia/2
-yedge = sqrt((cutter_dia/2)^2 - xcorner^2)
-xouter = cutter_dia
-youter = cutter_dia
-onechunkcoords = [(xcorner, yedge), (xcorner, ycorner), (xedge, ycorner)]
+# arbitrary numbers to get me outside the cutting area
+xouter = cutter_dia/2+actual_cutter_depth
+youter = cutter_dia/2
 onechunkcoords = [(xcorner,youter), (xcorner,ycorner), (xouter,ycorner), (xcorner,youter)]
 figure = crests + roots
 for t in range(0,cutting_teeth):
@@ -45,7 +44,7 @@ for t in range(0,cutting_teeth):
     R = array([[cos(a), -sin(a)],
                [sin(a), cos(a)]])
     chunkcoords = transpose(dot(R, transpose(onechunkcoords)))
-    figure += polygon(chunkcoords, rgbcolor=(1,0,1), fill=True, alpha=1)
+    figure += polygon(chunkcoords, rgbcolor=(1,0,1), edgecolor="blue", fill=True)
 
 show(figure, aspect_ratio=1.0)
 
