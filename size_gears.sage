@@ -1,3 +1,12 @@
+from numpy import *
+
+def how_divide(divisions, gear_ratio, division_plates):
+    dplates = array(division_plates)
+    stops = gear_ratio * dplates
+    stops_mods = stops % divisions
+    matches = array(map((lambda x: x == 0 and True or False), stops_mods))
+    return dplates[matches]
+
 PA = 14.5
 DP = 72
 
@@ -36,12 +45,4 @@ for i in range(1, 21):
     div = how_divide(T, div_gear_ratio, div_plates)
     print "%2d %3d  %.04f  %.04f" %(i, T, PCD, blank),
     print div
-    
-
-def how_divide(divisions, gear_ratio, division_plates):
-    dplates = array(division_plates)
-    stops = gear_ratio * dplates
-    stops_mods = stops % divisions
-    matches = array(map((lambda x: x == 0 and True or False), stops_mods))
-    return dplates[matches]
 
