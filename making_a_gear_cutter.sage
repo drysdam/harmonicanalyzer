@@ -1,54 +1,73 @@
 from numpy import *
 
-# choices
-PA = 14.5
-DP = 72
-actual_tip_removal = .020
-cutter_dia = .500
-cutting_teeth = 8
+def define_cutters(PA=14.5, DP=20, actual_tip_removal=.020, cutter_dia=.500, flutes=8, output=True):
+    """Inputs:
+         PA: Pressure angle, in degrees.
+         DP: Diametral pitch, in teeth/inch.
+         actual_tip_removal: Amount ground off end of single-point cutter, in inches.
+         cutter_dia: Diameter of rack-form cutter blank.
+         flutes: Number of fluts to cut into rack-form cutter. 
+         output: Boolean controlling whether output/graph are emitted
 
-print "Making a %d degree pressure angle, %d teeth/diametral inch gear cutter" % (PA, DP)
-print "-" * 70
+       Outputs:
+         a bunch of text and a graph 
+         
+       Returns:
+         infeed: amount rack-form gear cutter should be fed into a
+         gear blank to cut teeth properly
+    """
 
-# shapes being cut on the rack-form cutter
-cutter_spacing = pi/DP
-cutter_depth = pi/(4*DP*tan(deg2rad(PA)))+1.25/DP
+    if output:
+        print "Making a %.1f degree pressure angle, %d teeth/diametral inch gear cutter" % (PA, DP)
+        print "-" * 70
 
-# making the single-point cutter
-max_tip_removal = pi/(4*DP*tan(deg2rad(PA)))-1/DP
-print "sp cutter max tip removal: %.04f" % max_tip_removal
-print "sp cutter actual tip removal: %.04f" % actual_tip_removal
-print
-# making the rack-form cutter
-actual_cutter_depth = cutter_depth - actual_tip_removal
-print "rf cutter tooth spacing: %.04f" % cutter_spacing
-print "rf cutter tooth depth (sharp): %.04f" % cutter_depth
-print "rf cutter tooth depth (actual): %.04f" % actual_cutter_depth
-print
+    # shapes being cut on the rack-form cutter
+    cutter_spacing = pi/DP
+    cutter_depth = pi/(4*DP*tan(deg2rad(PA)))+1.25/DP
 
-# rf cutter diagram
-crests = plot(circle((0,0), cutter_dia/2))
-# diameter of teeth roots
-roots = plot(circle((0,0), cutter_dia/2-actual_cutter_depth))
+    # making the single-point cutter
+    max_tip_removal = pi/(4*DP*tan(deg2rad(PA)))-1/DP
+    if output:
+        print "sp cutter max tip removal: %.04f" % max_tip_removal
+        print "sp cutter actual tip removal: %.04f" % actual_tip_removal
+        print
+    # making the rack-form cutter
+    actual_cutter_depth = cutter_depth - actual_tip_removal
+    if output:
+        print "rf cutter tooth spacing: %.04f" % cutter_spacing
+        print "rf cutter tooth depth (sharp): %.04f" % cutter_depth
+        print "rf cutter tooth depth (actual): %.04f" % actual_cutter_depth
+        print
 
-# real amounts I care about
-xcorner = cutter_dia/2-actual_cutter_depth-.005
-ycorner = -.005
-# arbitrary numbers to get me outside the cutting area
-xouter = cutter_dia/2+actual_cutter_depth
-youter = cutter_dia/2
-onechunkcoords = [(xcorner,youter), (xcorner,ycorner), (xouter,ycorner), (xcorner,youter)]
-figure = crests + roots
-for t in range(0,cutting_teeth):
-    a = 2*pi/cutting_teeth * t
-    R = array([[cos(a), -sin(a)],
-               [sin(a), cos(a)]])
-    chunkcoords = transpose(dot(R, transpose(onechunkcoords)))
-    figure += polygon(chunkcoords, rgbcolor=(1,0,1), edgecolor="blue", fill=True)
+    # rf cutter diagram
+    crests = plot(circle((0,0), cutter_dia/2))
+    # diameter of teeth roots
+    roots = plot(circle((0,0), cutter_dia/2-actual_cutter_depth))
 
-show(figure, aspect_ratio=1.0)
+    # real amounts I care about
+    xcorner = cutter_dia/2-actual_cutter_depth-.005
+    ycorner = -.005
+    # arbitrary numbers to get me outside the cutting area
+    xouter = cutter_dia/2+actual_cutter_depth
+    youter = cutter_dia/2
+    onechunkcoords = [(xcorner,youter), (xcorner,ycorner), (xouter,ycorner), (xcorner,youter)]
+    figure = crests + roots
+    for t in range(0,flutes):
+        a = 2*pi/flutes * t
+        R = array([[cos(a), -sin(a)],
+                   [sin(a), cos(a)]])
+        chunkcoords = transpose(dot(R, transpose(onechunkcoords)))
+        figure += polygon(chunkcoords, rgbcolor=(1,0,1), edgecolor="blue", fill=True)
 
-# making the gear
-infeed = 2.25/DP
-print "rf cutter infeed: %.04f" % infeed
+    if output:
+        show(figure, aspect_ratio=1.0)
 
+    # making the gear
+    infeed = 2.25/DP
+    if output:
+        print "rf cutter infeed: %.04f" % infeed
+
+    return infeed
+
+define_cutters(PA=14.5,DP=72,actual_tip_removal=.020,cutter_dia=.500,flutes = 8, 
+               output=False)
