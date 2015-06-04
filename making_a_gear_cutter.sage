@@ -47,6 +47,11 @@ def define_cutters(PA=14.5, DP=20, actual_tip_removal=.020, cutter_dia=.500, flu
     # real amounts I care about
     xcorner = cutter_dia/2-actual_cutter_depth-.005
     ycorner = -.005
+    if output:
+        print "rf cutter flute count: %d" % flutes
+        print "rf cutter flute depth (from outer edge): %.04f" % (actual_cutter_depth+.005)
+        print "rf cutter flute height (from center): %.04f" % ycorner
+        print
     # arbitrary numbers to get me outside the cutting area
     xouter = cutter_dia/2+actual_cutter_depth
     youter = cutter_dia/2
